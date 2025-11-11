@@ -1,0 +1,77 @@
+.dangki{
+    background-color: #f1cfac;
+    color: #4b3424;
+    width: 40%;
+    height: auto;
+    top: 10%;
+    left: 30%;
+    z-index: 2;
+    border-radius: 30px;
+    padding: 50px 70px ;
+    margin-bottom: 70px;
+    margin-top: 70px;
+    margin-left: 390px ;
+}
+
+.dangki h1{
+    text-align: center;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+form > input{
+    display: block;
+    width:100%;
+    padding: 10px 5px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid brown;
+    margin: 5px;
+    background-color: transparent;
+}
+
+form > input:focus {
+    outline: none;
+}
+
+form > label{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.c-term{
+    margin-top: 24px;
+    color: #444;
+}
+
+.c-btn{
+    margin-top: 10px;
+    text-align: center;
+    justify-content: space-around;
+    font-size: 18px;
+}
+
+.c-btn button{
+    background-color: #5a3e2b;
+    border-radius: 20px;
+    border: none;
+    padding: 10px 30px;
+    color: white;
+    margin: 20px;
+    font-weight: 500;
+    transition: all .5s ease;
+}
+
+.c-btn button:hover{
+    background-color: #899d5a;
+    border-radius: #899d5a;
+    transition: ease 0.2s;
+}
+
+.c-btn a{
+    text-decoration: transparent;
+    color: brown;
+    font-weight: bold;
+}
