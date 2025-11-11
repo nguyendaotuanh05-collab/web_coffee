@@ -190,61 +190,57 @@
     </div>
     <!-- BẮT ĐẦU CODE GỌI MOMO FUNCTION -->
 <script>
-   document.addEventListener("DOMContentLoaded", function () {
-    // ... (các hàm khác) ...
-    
-    // Xử lý sự kiện thanh toán
-    document.getElementById("checkout").addEventListener("click", async function () { 
+  // === Thanh toán MOMO ===
+document.addEventListener("DOMContentLoaded", function () {
+    const momoBtn = document.getElementById("checkout-momo");
+
+    if (!momoBtn) return;
+
+    momoBtn.addEventListener("click", async function () {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
         if (cart.length === 0) {
-            alert("Giỏ hàng của bạn đang trống!"); 
+            alert("Giỏ hàng đang trống, vui lòng thêm sản phẩm!");
             return;
         }
 
-        // 1. Tính toán Tổng tiền và tạo OrderInfo (Front-end Logic)
+        // Tính tổng tiền
         let totalPrice = 0;
-        cart.forEach((item) => {
-            // Đảm bảo item.price được parse đúng (ví dụ: loại bỏ "đ")
-            const priceValue = parseFloat(item.price.replace(/[^\d]/g, ''));
-            totalPrice += priceValue * item.quantity;
+        cart.forEach(item => {
+            totalPrice += parseFloat(item.price) * item.quantity;
         });
-        
-        // Tạo Order ID và Order Info (sử dụng hàm createOrderInfo đã thêm vào)
-        const orderId = 'ECL_' + Date.now(); 
-        const orderInfo = createOrderInfo(cart); 
 
-        // 2. Gửi yêu cầu đến Back-end để tạo giao dịch MoMo
+        // Gửi yêu cầu lên Netlify Function
         try {
-            // Thay '/api/checkout/momo' bằng endpoint API thực tế của server Node.js của bạn
-            const response = await fetch('/api/checkout/momo', { 
-                method: 'POST',
+            const response = await fetch("/.netlify/functions/momo-create", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    orderId: orderId,
-                    amount: totalPrice, // Gửi tổng tiền (đơn vị: VNĐ)
-                    orderInfo: orderInfo,
-                    //... các thông tin khác cần lưu vào DB ...
-                }),
+                    amount: totalPrice
+                })
             });
 
             const data = await response.json();
+            console.log("MoMo Response:", data);
 
-            if (data.payUrl) {
-                // 3. Chuyển hướng người dùng đến cổng thanh toán MoMo
+            if (data?.payUrl) {
+                // Xóa giỏ trước khi redirect
+                localStorage.removeItem("cart");
                 window.location.href = data.payUrl;
             } else {
-                alert("Lỗi khi tạo giao dịch MoMo: " + data.message);
+                alert("Không thể tạo URL thanh toán! Check lại function.");
             }
 
-        } catch (error) {
-            console.error('Lỗi khi gọi API thanh toán:', error);
-            alert("Đã xảy ra lỗi trong quá trình kết nối thanh toán.");
+        } catch (err) {
+            console.error("MoMo error:", err);
+            alert("Lỗi kết nối đến server thanh toán!");
         }
+
     });
 });
+
 </script>
 <!-- KẾT THÚC CODE GỌI MOMO FUNCTION -->
 
