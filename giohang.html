@@ -191,11 +191,9 @@
     <!-- BẮT ĐẦU CODE GỌI MOMO FUNCTION -->
 <script>
     document.getElementById('momo-checkout').addEventListener('click', async () => {
-        // Lấy Tổng tiền từ giỏ hàng thực tế của bạn
-        // *Chú ý: Đoạn này cần tích hợp với logic tính toán tổng tiền (id="total-price") trong file js/cart.js của bạn.
-        // *Tạm thời sử dụng số tiền test 50.000 VNĐ*
+   
         const orderId = 'COFFEE_' + Date.now(); 
-        const totalAmount = 50000; // Sửa dòng này để lấy tổng tiền thực tế
+        const totalAmount = 500000; // Sửa dòng này để lấy tổng tiền thực tế
 
         // Bạn nên lấy orderInfo từ một biến trong file cart.js nếu có
         const orderInfo = 'Thanh toán đơn hàng Eclipse ' + orderId; 
