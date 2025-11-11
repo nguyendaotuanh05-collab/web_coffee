@@ -125,8 +125,27 @@ function removeProduct(index) {
 document.addEventListener("DOMContentLoaded", function () {
     displayCart();
 });
+//mã đơn
+function createOrderInfo(cart) {
+    if (cart.length === 0) {
+        return "Thanh toán đơn hàng trống";
+    }
 
+    // Lấy tên và số lượng của tối đa 3 sản phẩm đầu tiên
+    const itemDescriptions = cart.slice(0, 3).map(item => {
+        // Chỉ lấy tên sản phẩm mà không có khoảng trắng hoặc ký tự đặc biệt
+        const cleanName = item.name.replace(/\s/g, '').substring(0, 15); // Giới hạn 15 ký tự
+        return `${cleanName} (x${item.quantity})`;
+    });
 
+    let info = `Thanh toán: ${itemDescriptions.join(', ')}`;
+    
+    if (cart.length > 3) {
+        info += ' và các sản phẩm khác...';
+    }
+    
+    return info.substring(0, 150); // Giới hạn độ dài chuỗi (MoMo có giới hạn)
+}
 
 
 
