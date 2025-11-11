@@ -220,7 +220,7 @@
             } else {
                 // Sử dụng console.error thay vì alert() nếu có thể, nhưng alert() giúp người dùng biết lỗi
                 console.error('Lỗi tạo thanh toán:', data.error);
-                alert('Lỗi tạo thanh toán: ' + (data.error || 'Server error'));
+                alert( + (data.error || 'Server error'));
             }
         } catch (error) {
             console.error('Frontend Error:', error);
