@@ -45,21 +45,57 @@ function updateCartCount() {
 document.addEventListener("DOMContentLoaded", function () {
     displayCart(); // Hiển thị giỏ hàng
 
-    // Xử lý sự kiện thanh toán
-    document.getElementById("checkout").addEventListener("click", function () {
+    // === Thanh toán MOMO ===
+document.addEventListener("DOMContentLoaded", function () {
+    const momoBtn = document.getElementById("checkout-momo");
+
+    if (!momoBtn) return;
+
+    momoBtn.addEventListener("click", async function () {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
         if (cart.length === 0) {
-            alert("Giỏ hàng của bạn đang trống!"); // Không cho thanh toán nếu giỏ hàng trống
+            alert("Giỏ hàng đang trống, vui lòng thêm sản phẩm!");
             return;
         }
 
-        // Hiển thị thông báo và chuyển hướng về trang chủ
-        alert("Thanh toán thành công!");
-        localStorage.removeItem("cart"); // Xóa giỏ hàng
-        window.location.href = "Trangchu.html"; // Chuyển về trang chủ
+        // Tính tổng tiền
+        let totalPrice = 0;
+        cart.forEach(item => {
+            totalPrice += parseFloat(item.price) * item.quantity;
+        });
+
+        // Gửi yêu cầu lên Netlify Function
+        try {
+            const response = await fetch("/.netlify/functions/momo-create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    amount: totalPrice
+                })
+            });
+
+            const data = await response.json();
+            console.log("MoMo Response:", data);
+
+            if (data?.payUrl) {
+                // Xóa giỏ trước khi redirect
+                localStorage.removeItem("cart");
+                window.location.href = data.payUrl;
+            } else {
+                alert("Không thể tạo URL thanh toán! Check lại function.");
+            }
+
+        } catch (err) {
+            console.error("MoMo error:", err);
+            alert("Lỗi kết nối đến server thanh toán!");
+        }
+
     });
 });
+
 
 // Hàm hiển thị giỏ hàng
 function displayCart() {
