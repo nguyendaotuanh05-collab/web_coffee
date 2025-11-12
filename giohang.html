@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Gửi yêu cầu lên Netlify Function
         try {
-            const response = await fetch("/.netlify/functions/momo-create", {
+            const response = await fetch("http://localhost:3000/api-create", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
