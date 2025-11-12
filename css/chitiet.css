@@ -1,0 +1,259 @@
+/* Bố cục sản phẩm */
+.details-product .product {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 50px;
+}
+
+.details-product .card {
+    border: none;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}
+
+/* Hình ảnh sản phẩm */
+.anh img {
+    transition: 0.3s;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    margin-left: 25px;
+    margin-top: 20px;
+}
+
+
+.anh img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-left: 25px;
+    transition: transform 0.3s ease-in-out;
+    margin-left: 70px;
+}
+
+.anh img:hover {
+    transform: scale(1.05);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1000000;
+}
+
+.popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.product {
+    margin-left: 140px;
+}
+
+.product .status {
+    padding-top: 10px;
+    font-size: 18px;
+}
+
+/* Tiêu đề sản phẩm */
+.product .details h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.details .available {
+    color: green;
+    font-weight: bold;
+}
+
+/* Giá sản phẩm */
+.card-text {
+    color: #D32F2F;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.card .product .details .cardtext {
+    font-size: 18px;
+    margin-top: -10px;
+}
+
+/* Điều chỉnh số lượng */
+.quantity {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 8px;
+}
+
+.quantity button {
+    padding: 5px 12px;
+    border: 1px solid #13010123;
+    background: white;
+    color: #682626;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.quantity input {
+    padding: 5px;
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    border: none;
+}
+
+.quantity button:hover {
+    background: #899d5a;
+    color: white;
+}
+
+
+/* Nút "Thêm vào giỏ" */
+.product .details .btn {
+    background: #6F4E37;
+    color: #fff;
+    border: 1px solid #6F4E37;
+    transition: 0.3s;
+    width: 657px;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.product .details .btn:hover {
+    background: #899d5a;
+    color: white;
+}
+
+
+/* Nút "Mua ngay" */
+.buy-now {
+    background: #6F4E37;
+    color: white;
+    transition: 0.3s;
+    width: 657px;
+    height: 50px;
+    text-align: center;
+    padding: 8px;
+    padding-top: 10px;
+}
+
+.buy-now:hover {
+    background: #899d5a;
+}
+
+
+
+/* commit */
+.commitments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.commitments .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.commitments .col-lg-4 {
+    flex: 1 1 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.commitment-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    transition: transform 0.3s ease-in-out;
+}
+
+.commitment-item:hover {
+    transform: scale(1.05);
+}
+
+.commitment-item i {
+    font-size: 22px;
+    color: #ab5f33;
+    transition: color 0.3s ease-in-out;
+}
+
+.commitment-item:hover i {
+    color: #e35e00;
+}
+
+
+/* mô tả */
+.mota h3 {
+    text-align: center;
+    font-size: 34px;
+    font-weight: bold;
+    font-style: italic;
+    color: #6F4E37;
+    padding-bottom: 10px;
+    width: fit-content;
+    margin: 20px auto;
+    z-index: -50;
+}
+
+
+.mota h3::after {
+    content: "";
+    width: 50%;
+    height: 3px;
+    background: #899d5a;
+    position: absolute;
+    left: 25%;
+    bottom: 0;
+    border-radius: 5px;
+}
+
+
+/* Định dạng nội dung mô tả */
+.mota p {
+    text-align: justify;
+    font-size: 20px;
+    color: #333;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
