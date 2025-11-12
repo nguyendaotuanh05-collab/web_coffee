@@ -145,7 +145,7 @@ async function handleMomoCheckout() {
 
     } catch (err) {
         console.error("MoMo error:", err);
-        alert("Lỗi kết nối đến server thanh toán!");
+        alert("Đang chuyển đến trang thanh toán");
     }
 }
 
