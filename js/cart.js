@@ -196,9 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
         momoBtn.addEventListener("click", handleMomoCheckout);
     }
     
-    // Xóa logic cũ (nếu có nút checkout thường):
-    // const checkoutBtn = document.getElementById("checkout");
-    // if (checkoutBtn && checkoutBtn.id !== 'checkout-momo') {
-    //    // ... xử lý logic thanh toán thường (nếu có) ...
-    // }
+   //trả về web 
+    var returnUrl = 'https://23dh.netlify.app';
 });
