@@ -40,3 +40,12 @@ function createPaymentUrl(amount, orderId) {
     
     return vnpUrl;
 }
+const response = await fetch('/.netlify/functions/vnpay-create', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ amount: 100000, orderId: 'INV' + Date.now() })
+});
+const data = await response.json(); 
+if (data.vnpUrl) {
+    window.location.href = data.vnpUrl; // Chuyển hướng đến cổng VNPAY
+}
