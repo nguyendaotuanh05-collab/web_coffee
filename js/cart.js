@@ -197,5 +197,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
    //trả về web 
-    var returnUrl = 'https://23dh.netlify.app/trangchu.html';
+    var returnUrl = 'https://23dh.netlify.app/Trangchu.html';
 });
