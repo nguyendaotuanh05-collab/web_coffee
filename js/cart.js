@@ -93,7 +93,7 @@ async function handleMomoCheckout() {
     if (cart.length === 0) {
         // Dùng console.error thay vì alert() nếu có thể, nhưng alert() giúp người dùng biết lỗi
         alert("Giỏ hàng đang trống, vui lòng thêm sản phẩm!");
-        return;
+       return;
     }
 
     // 1. Tính tổng tiền (phải là số nguyên)
