@@ -1,1 +1,4 @@
-/    /trangchu.html    301!
+from = "23dh.netlify.app"
+  to = "23dh.netlify.app/Trangchu.html"
+  status = 301
+  force = true
