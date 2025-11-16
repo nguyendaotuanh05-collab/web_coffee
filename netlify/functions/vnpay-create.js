@@ -41,8 +41,13 @@ exports.handler = async (event, context) => {
         }
 
         // 2. Lấy dữ liệu từ body (được gửi từ giohang.html)
-        const { amount, orderId, orderInfo } = JSON.parse(event.body);
-        
+       // const { amount, orderId, orderInfo } = JSON.parse(event.body);
+const amount = 50000; // Dùng số nguyên sạch sẽ
+const orderId = 'TEST' + Date.now();
+const orderInfo = 'Thanh toan don hang TEST';
+
+
+		
         // Kiểm tra dữ liệu bắt buộc
         if (!amount || !orderId) {
             return {
