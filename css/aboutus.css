@@ -1,0 +1,72 @@
+.content-1 {
+    margin-bottom: 40px;
+}
+
+.content-1 h1 {
+    text-align: center;
+    font-size: 26px;
+    padding-top: 70px;
+    margin-bottom: 5px;
+    position: relative;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.content-1 h1::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    background-color: #8B5A2B;
+    margin: 8px auto;
+}
+
+h3 {
+    text-align: center;
+    font-style: italic;
+    font-size: 20px;
+    margin-bottom: 10px;
+    position: relative;
+    font-weight: bold;
+    font-family: "Playfair Display", serif;
+}
+
+.content-1 p {
+    text-align: justify;
+    font-size: 18px;
+    line-height: 1.8;
+    padding: 35px;
+}
+/* nd 2 */
+.content-2 p{
+    text-align: justify;
+    font-size: 18px;
+    line-height: 1.8;
+    padding: 30px;
+}
+.content-2 img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+.content-2{
+    padding: 30px;
+}
+
+
+/* nd3 */
+.content-3 p{
+    text-align: justify;
+    font-size: 18px;
+    line-height: 1.8;
+    padding: 30px;
+}
+.content-3 img {
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+.content-3 {
+    margin-top: 30px;
+    padding: 30px;
+}

@@ -1,0 +1,85 @@
+/* sản phẩm */
+.allproduct {
+    padding-right: 120px;
+}
+.product-list {
+    display: flex;
+    gap: 20px;
+    padding: 30px;
+    padding-right: 50px;
+    position: relative;
+}
+
+.product-list a{
+   background-color: white;
+}
+.product-list a:hover{
+    background-color: white;
+    transition: none;
+}
+
+.product-list .card {
+    background: white;
+    padding: 15px;
+    border-radius: 40px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-list .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product-list .card-body .card-text {
+    font-size: 18px;
+    color: red;
+    font-weight: bold;
+}
+
+.product-list .card-body .cardtext {
+    font-size: 16px;
+}
+.product-list img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 25px;
+    transition: transform 0.3s ease;
+}
+
+.product-list:hover img {
+    transform: scale(1.05);
+}
+
+.product-list h5 {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+.product-list p {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.product-list .card-body .btn-primary {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: white;
+    background: #8B5E3C;
+    border: none;
+    border-radius: 30px;
+    transition: background 0.3s ease;
+    margin-top: 5px;
+}
+
+.product-list .card-body .btn-primary:hover {
+    background-color: #899d5a;
+    border-color: #899d5a;
+    transform: scale(1.05);
+}

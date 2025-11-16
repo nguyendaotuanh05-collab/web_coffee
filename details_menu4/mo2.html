@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/lienhe.css">
+    <link rel="stylesheet" href="../css/aboutus.css">
+    <link rel="stylesheet" href="../css/menu1.css">
+    <link rel="stylesheet" href="../css/chitiet.css">
+    <link rel="stylesheet" href="../css/bootstrap/css/bootstrap.min.css">
+    <script src="../css/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/cdd11b4a6d.js" crossorigin="anonymous"></script>
+    <title>Menu - Mojito</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="row">
+            <!-- nhận dạng -->
+            <div class="head">
+                E C L I P S E
+            </div>
+        </div>
+        
+        <!-- slide bar -->
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div id="sidebar" class="sidebar">
+                    <button class="close-btn" onclick="toggleSidebar()">×</button>
+                    <h2 class="slidebar-title">Eclipse</h2>
+                    <a href="../Trangchu.html">Trang chủ</a>
+                    <a href="../vechungtoi.html">Về chúng tôi</a>
+                    <a href="../details_menu1/menu1.html">Cà phê</a>
+                    <a href="../details_menu2/menu2.html">Trà</a>
+                    <a href="../details_menu3/menu3.html">Freeze</a>
+                    <a href="menu4.html">Mojito</a>
+                    <a href="../lienhe.html">Liên hệ</a>
+                </div>
+                <button class="open-btn" onclick="toggleSidebar()" id="toggleButton">☰</button>
+            </div>
+        </div>
+
+        <!-- menu chính -->
+        <div class="row">
+            <!-- logo -->
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <a href="../Trangchu.html" class="logo">
+                    <img src="../img/trangchu/logo.png" alt="" class="img-fluid" width="150px" height="150px">
+                </a>
+            </div>
+
+            <!-- menu -->
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" href="../Trangchu.html">Trang chủ</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="../vechungtoi.html">Về chúng tôi</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                                        Menu
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="../details_menu1/menu1.html">Cà phê</a></li>
+                                        <li><a class="dropdown-item" href="../details_menu2/menu2.html">Trà</a></li>
+                                        <li><a class="dropdown-item" href="../details_menu3/menu3.html">Freeze</a></li>
+                                        <li><a class="dropdown-item" href="menu4.html">Mojito</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="../lienhe.html">Liên hệ</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- icon -->
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="item">
+                    <div class="cart-icon">
+                        <a href="../giohang.html">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span id="cart-count">0</span>
+                        </a>
+                    </div>
+
+
+                    <div class="login">
+                        <div class="navbar">
+                            <div class="account-dropdown">
+                                <div class="account-icon"><i class="fa-solid fa-user"> </i></div>
+                                <div class="dropdown-menu" id="avatar-action-container">
+                                    <span id="user-info"></span>
+                                    <a href="../dangki.html" id="signup-link">Đăng ký</a>
+                                    <a href="../dangnhap.html" id="login-link">Đăng nhập</a>
+                                    <a href="../userinfo.html" id="user-page-link" style="display: none;">Thông tin
+                                        </br> cá nhân</a>
+                                    <a href="#" id="logout-link" style="display: none;" onclick="logout()">Đăng
+                                        xuất</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- sản phẩm chi tiết -->
+        <div class="details-product">
+            <div class="row">
+                <div class="card">
+                    <div class="anh">
+                        <img src="../img/menu4/mo2.jpg" alt="cf" class="card-img-top" onclick="openPopup(this.src)">
+                        <div class="popup" id="popup">
+                            <span class="close" onclick="closePopup()">&times;</span>
+                            <img id="popup-img">
+                        </div>
+                    </div>
+
+                    <div class="product">
+                        <div class="details">
+                            <h1 class="card-title">MOJITO DÂU</h1>
+                            <p class="status">Tình trạng: <span class="available">Còn hàng</span></p>
+                            <p class="card-text">43000 đ</p>
+                            <p class="cardtext"><del>Giá cũ: 50.000đ</del></p>
+                            <div class="quantity">
+                                <button class="minus">-</button>
+                                <input type="number" value="1" min="1">
+                                <button class="plus">+</button>
+                            </div>
+                            <a href="#" class="btn btn-primary add-to-cart">Đặt hàng</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="commitments">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="commitment-item">
+                                <i class="fas fa-box-open"></i>
+                                <span>Cam kết 100% chính hãng</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="commitment-item">
+                                <i class="fas fa-shipping-fast"></i>
+                                <span>Miễn phí giao hàng</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="commitment-item">
+                                <i class="fas fa-undo-alt"></i>
+                                <span>Đổi trả trong 7 ngày</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="commitment-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Hoàn tiền 111% nếu hàng giả</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="commitment-item">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span>Mở hộp kiểm tra nhận hàng</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="commitment-item">
+                                <i class="fas fa-headset"></i>
+                                <span>Hỗ trợ 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mota">
+        <h3>Mô tả sản phẩm</h3>
+        <p>Chua ngọt dịu từ dâu tây tươi, hòa quyện với vị chanh thanh mát, bạc hà the nhẹ và soda mát lạnh.</p>
+    </div>
+
+
+
+
+    <!-- footer -->
+    <div class="row">
+        <div class="footer">
+            <div class="py-3 border-top mt-3">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Địa chỉ</h4>
+                        <p>Địa chỉ: Hóc Môn, Tp. Hồ Chí Minh
+                            <br>Hotline: 09.0802.2106
+                            <br>Gmail: EclipseCf@gmail.com
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Về chúng tôi</h4>
+                        <p>Eclipse mang phong cách hiện đại, sang trọng nhưng vẫn ấm cúng. Lấy cảm hứng từ sự huyền
+                            bí
+                            của nguyệt thực,
+                            quán có tông màu trầm kết hợp ánh đèn dịu nhẹ, tạo cảm giác thư giãn nhưng vẫn đầy chất
+                            nghệ
+                            thuật.</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Liên kết</h4>
+                        <ul>
+                            <li>Tìm kiếm</li>
+                            <li>Menu</li>
+                            <li>Chăm sóc khách hàng </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Kết nối với Eclipse Café</h4>
+                        <ul>
+                            <li>Facebook</li>
+                            <li>Instagram</li>
+                            <li>Youtube</li>
+                            <li>Google</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="copyright">&copy; Copyright 2025 Eclipse, All rights reserved</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="../js/func.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/dangki.js"></script>
+    <script src="../js/droplogin.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const minusButton = document.querySelector(".minus");
+            const plusButton = document.querySelector(".plus");
+            const quantityInput = document.querySelector("input[type='number']");
+
+            minusButton.addEventListener("click", function () {
+                if (quantityInput.value > 1) {
+                    quantityInput.value--;
+                }
+            });
+
+            plusButton.addEventListener("click", function () {
+                quantityInput.value++;
+            });
+        });
+    </script>
+</body>
+
+</html>
