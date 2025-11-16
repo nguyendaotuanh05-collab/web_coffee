@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Thanh Toán VNPAY</title>
+    <style>
+        /* CSS Cơ bản mô phỏng giao diện thông báo */
+        body { font-family: sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .result-box { background-color: #ffffff; padding: 40px 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); max-width: 450px; width: 90%; text-align: center; }
+        .icon { width: 60px; height: 60px; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
+        .success .icon { background-color: #e6f7e6; color: #52c41a; font-size: 32px; }
+        .failed .icon { background-color: #fff1f0; color: #f5222d; font-size: 32px; }
+        h2 { margin-bottom: 10px; font-size: 24px; }
+        .amount-box { border: 1px dashed #d9d9d9; padding: 15px; border-radius: 6px; margin: 20px 0; font-size: 28px; font-weight: bold; color: #333; }
+        a { color: #1890ff; text-decoration: none; font-weight: 500; display: inline-block; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div id="result-container" class="result-box">
+        </div>
+
+    <script>
+        // Hàm đọc tham số từ URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        const status = getParameterByName('status');
+        const orderId = getParameterByName('orderId');
+        const rawAmount = getParameterByName('amount');
+        const amount = rawAmount ? (parseFloat(rawAmount) / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".") : 'N/A';
+        const container = document.getElementById('result-container');
+        
+        if (status === 'success') {
+            container.className += ' success';
+            container.innerHTML = `
+                <div class="icon">✓</div>
+                <h2>Thanh toán thành công!</h2>
+                <div class="amount-box">${amount} VNĐ</div>
+                <p style="color: #8c8c8c; font-size: 14px;">Mã giao dịch: ${orderId}</p>
+                <p style="margin-top: 25px;">VNPAY sẽ tự động đưa bạn về lại trang của Nhà cung cấp</p>
+                <a href="trangchu.html">Quay về trang chủ</a>
+            `;
+        } else {
+            container.className += ' failed';
+            container.innerHTML = `
+                <div class="icon">✖</div>
+                <h2>Giao dịch thất bại!</h2>
+                <p style="color: #8c8c8c; font-size: 14px;">Mã giao dịch: ${orderId}</p>
+                <p style="margin-top: 25px;">Vui lòng kiểm tra lại thông tin hoặc thử lại sau.</p>
+                <a href="trangchu.html">Thử lại / Quay về trang chủ</a>
+            `;
+        }
+    </script>
+</body>
+</html>
