@@ -7,7 +7,7 @@ const querystring = require('querystring');
 const tmnCode = process.env.VNP_TMNCODE;
 const hashSecret = process.env.VNP_HASHSECRET;
 const vnpUrl = process.env.VNP_URL;
-const returnUrl = 'https://23dh.netlify.app/trangchu.html'; // Ví dụ: 'https://23dh.netlify.app/thanhcong.html'
+const returnUrl = process.env.VNP_RETURN_URL; 
 
 // Hàm xử lý chính của Netlify Function
 exports.handler = async (event, context) => {
