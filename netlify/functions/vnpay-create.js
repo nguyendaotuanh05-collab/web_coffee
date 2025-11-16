@@ -5,7 +5,7 @@ const querystring = require('querystring');
 
 // Đảm bảo bạn đã khai báo các biến này trong Netlify Environment Variables
 const tmnCode = process.env.VNP_TMNCODE;
-const hashSecret = process.env.VNP_HASHSECRET;
+const vnp_HashSecret = process.env.VNP_HASHSECRET;
 const vnpUrl = process.env.VNP_URL;
 const returnUrl = process.env.VNP_RETURN_URL; 
 
