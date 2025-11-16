@@ -21,7 +21,7 @@
   "dependencies": {
  "axios": "^1.13.2",
     "crypto-js": "^4.2.0",
-    "mongodb": "^4.1.0",      // <-- Cần thiết cho vnpay-ipn.js
-    "moment": "^2.29.1" 
+    "mongodb": "^4.1.0",      
+    "moment": "^2.29.1"
   }
 }
