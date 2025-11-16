@@ -5,7 +5,7 @@ const querystring = require('querystring');
 const { MongoClient } = require('mongodb'); // Ví dụ: sử dụng MongoDB để kết nối DB
 
 // 1. CẤU HÌNH VNPAY VÀ DATABASE
-const vnp_HashSecret = process.env.VNPAY_HASH_SECRET; // Nên dùng biến môi trường
+const vnp_HashSecret = process.env.VNP_HASHSECRET; // Nên dùng biến môi trường
 const mongo_uri = process.env.MONGODB_URI;
 
 // HÀM XỬ LÝ CHÍNH KHI VNPAY GỌI ĐẾN
