@@ -120,8 +120,9 @@
         </div>
 
     <script>
-        // Placeholder URL cho logo VNPAY
-        const VNPAY_LOGO_URL = 'https://sandbox.vnpayment.vn/paymentv2/images/logo_vnpay.png'; 
+        // --- URL MỚI, ỔN ĐỊNH HƠN CHO LOGO VNPAY ---
+        const VNPAY_LOGO_URL = 'https://upload.wikimedia.org/wikipedia/commons/f/ff/VnPay_logo.png'; 
+        // ------------------------------------------
 
         function getParameterByName(name, url = window.location.href) {
             name = name.replace(/[\[\]]/g, '\\$&');
@@ -155,7 +156,7 @@
             case 'success':
                 container.className += ' success';
                 headerHTML = `
-                    <img src="${https://www.google.com/search?sca_esv=fcc2a34eb259c0b4&sxsrf=AE3TifNlBWpqyRejiLweaYKcrYMPQQop0g:1763278087108&udm=2&fbs=AIIjpHyNLa7NbKa1H9FnKAJNsjCPuuyZ8axF70qppVREZw12J16j6TEYGEwZz6y4Q0FA_xM6YHD0TlzwvZm1rreNQvouURrB3nXlkoYBefKQBBNULnEPYTHGgj1RlSNW7U21-ufZnPmx_o4Vwf1JT_RsgPq3YrCKgVi-sfhyo7rRHz0uC88uCfv_E6fmUn5OBuaTyB6nry3lQApLOtf08iyY_ym94-JzWrthJVlDG0yBbA4l9O-fj34SaKSOSBXtpAV8CsUU9at1&q=logo+vnpay+png&sa=X&ved=2ahUKEwjH0ZbgkvaQAxVyna8BHbU0JIkQtKgLegQIExAB&biw=1366&bih=641&dpr=1#vhid=_-oVoHA6Nq6t3M&vssid=mosaicL}" alt="VNPAY Logo" class="vnpay-logo">
+                    <img src="${VNPAY_LOGO_URL}" alt="VNPAY Logo" class="vnpay-logo">
                     <div class="status-icon">✓</div>
                     <h1>Thanh Toán Thành Công</h1>
                 `;
@@ -208,11 +209,11 @@
             <a href="trangchu.html" class="button-link">Quay về Trang Chủ Ngay</a>
         `;
         
-        // --- CHỨC NĂNG TỰ ĐỘNG CHUYỂN HƯỚNG SAU 5 GIÂY ---
+        // Tự động chuyển hướng sau 5 giây
         setTimeout(() => {
             window.location.href = 'trangchu.html';
         }, 5000); // 5000 milliseconds = 5 giây
-        // ----------------------------------------------------
+        
     </script>
 </body>
 </html>
