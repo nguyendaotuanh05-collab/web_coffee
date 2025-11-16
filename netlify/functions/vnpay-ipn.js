@@ -34,27 +34,22 @@ exports.handler = async (event) => {
 
     try {
         const query = event.queryStringParameters;
-        
-        // Lấy URL gốc của website (ví dụ: https://23dh.netlify.app/)
-        // Dùng header.host để lấy domain hiện tại
+        
+        // Lấy URL gốc của website (ví dụ: https://23dh.netlify.app/)
+        // Dùng header.host để lấy domain hiện tại
         const siteUrl = event.headers.host ? `https://${event.headers.host}` : 'https://23dh.netlify.app';
 
         // Sử dụng hàm verifyReturnUrl của thư viện để xác thực cả IPN
         const verify = vnpay.verifyReturnUrl(query); 
         
-        // Phản hồi cho VNPAY Server (IPN)
-        // Lưu ý: Hàm này dùng chung cho cả RETURN và IPN. 
-        // Theo yêu cầu của VNPAY, nếu xác thực Hash đúng, phải trả về JSON {RspCode: '00'} cho server của họ
-        // Tuy nhiên, đối với RETURN URL (trình duyệt), ta cần REDIRECT
+        // Phản hồi cho VNPAY Server (IPN) và Chuyển hướng cho Trình duyệt (RETURN)
 
         if (verify.isSuccess) {
-            
-            // **Quan trọng:** Gửi phản hồi JSON '00' trước cho VNPAY Server (IPN)
-            // Vì đây là RETURN URL (trình duyệt), ta sẽ chuyển hướng (redirect)
-            
+            
+            // Giao dịch hợp lệ (Hash đúng)
+            
             if (query.vnp_ResponseCode === '00') {
                 // Giao dịch thành công, chuyển hướng người dùng đến trang kết quả
-                // VNPAY yêu cầu trả về JSON 00 cho IPN, nhưng vì đây là RETURN (trình duyệt), ta ưu tiên chuyển hướng.
                 return {
                     statusCode: 302, // Mã chuyển hướng (Redirect)
                     headers: {
@@ -67,3 +62,25 @@ exports.handler = async (event) => {
                 // Giao dịch thất bại (Hash đúng nhưng ngân hàng từ chối)
                 return {
                     statusCode: 302,
+                    headers: {
+                        'Location': `${siteUrl}/ketqua.html?status=failed&orderId=${query.vnp_TxnRef}&message=Giao dịch bị từ chối`,
+                    },
+                    body: ''
+                };
+            }
+        } else {
+            // Hash sai (Lỗi bảo mật/chữ ký)
+            return {
+                statusCode: 302,
+                headers: {
+                    'Location': `${siteUrl}/ketqua.html?status=hash_error`,
+                },
+                body: ''
+            };
+        }
+
+    } catch (error) {
+        console.error("VNPAY IPN ERROR:", error);
+        return { statusCode: 500, body: JSON.stringify({ RspCode: '99', Message: 'System error' }) };
+    }
+};
