@@ -7,7 +7,7 @@ const crypto = require('crypto');
 // -----------------------------------------------------------------------------
 // 1. CẤU HÌNH MOMO (Sử dụng biến môi trường là cách TỐT NHẤT)
 // Hiện tại chúng ta dùng giá trị cứng để dễ test, nhưng nên chuyển sang process.env
-// -----------------------------------------------------------------------------
+// --------------------------------------------------------
 
 // Các giá trị này PHẢI được lấy từ Netlify Environment Variables
 const accessKey = process.env.MOMO_ACCESS_KEY;
