@@ -19,9 +19,16 @@
   },
   "homepage": "https://github.com/nguyendaotuanh05-collab/web_coffee#readme",
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^1.13.2",
     "crypto-js": "^4.2.0",
     "moment": "^2.29.1",
     "vnpay": "^2.4.4"
   }
+=======
+  "axios": "^1.13.2",
+  "crypto-js": "^4.2.0",
+  "moment": "^2.29.1" 
+}
+>>>>>>> 834129422c2a0e489a9c65da477c611ed9dd6d34
 }
