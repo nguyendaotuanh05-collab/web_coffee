@@ -3,25 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kết Quả Thanh Toán VNPAY</title>
+    <title>Kết Quả Giao Dịch VNPAY</title>
     <style>
-        /* CSS Cơ bản mô phỏng giao diện thông báo */
-        body { font-family: sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .result-box { background-color: #ffffff; padding: 40px 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); max-width: 450px; width: 90%; text-align: center; }
-        .icon { width: 60px; height: 60px; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
-        .success .icon { background-color: #e6f7e6; color: #52c41a; font-size: 32px; }
-        .failed .icon { background-color: #fff1f0; color: #f5222d; font-size: 32px; }
-        h2 { margin-bottom: 10px; font-size: 24px; }
-        .amount-box { border: 1px dashed #d9d9d9; padding: 15px; border-radius: 6px; margin: 20px 0; font-size: 28px; font-weight: bold; color: #333; }
-        a { color: #1890ff; text-decoration: none; font-weight: 500; display: inline-block; margin-top: 15px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            border: 1px solid #d9d9d9;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        .success .status-icon {
+            background-color: #f6ffed; /* Nền xanh nhạt */
+            border: 1px solid #b7eb8f; /* Viền xanh */
+            color: #52c41a; /* Màu chữ xanh */
+        }
+        .failed .status-icon, .hash-error .status-icon {
+            background-color: #fff2f0; /* Nền đỏ nhạt */
+            border: 1px solid #ffccc7; /* Viền đỏ */
+            color: #ff4d4f; /* Màu chữ đỏ */
+        }
+        h1 {
+            font-size: 22px;
+            margin: 0;
+            color: #333;
+        }
+        .detail-row {
+            margin: 15px 0;
+            text-align: left;
+            padding: 5px 0;
+            border-bottom: 1px dashed #f0f0f0;
+        }
+        .detail-row span {
+            display: inline-block;
+            width: 45%;
+            font-size: 14px;
+            color: #666;
+        }
+        .detail-row strong {
+            display: inline-block;
+            width: 50%;
+            text-align: right;
+            color: #333;
+            font-weight: 600;
+        }
+        .button-link {
+            display: block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #1890ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .button-link:hover {
+            background-color: #40a9ff;
+        }
     </style>
 </head>
 <body>
-    <div id="result-container" class="result-box">
+    <div id="result-container" class="container">
         </div>
 
     <script>
-        // Hàm đọc tham số từ URL
         function getParameterByName(name, url = window.location.href) {
             name = name.replace(/[\[\]]/g, '\\$&');
             var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -32,31 +106,64 @@
         }
 
         const status = getParameterByName('status');
-        const orderId = getParameterByName('orderId');
+        const orderId = getParameterByName('orderId') || 'N/A';
         const rawAmount = getParameterByName('amount');
-        const amount = rawAmount ? (parseFloat(rawAmount) / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".") : 'N/A';
+        const amount = rawAmount ? (parseFloat(rawAmount)).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ' : 'N/A';
         const container = document.getElementById('result-container');
         
-        if (status === 'success') {
-            container.className += ' success';
-            container.innerHTML = `
-                <div class="icon">✓</div>
-                <h2>Thanh toán thành công!</h2>
-                <div class="amount-box">${amount} VNĐ</div>
-                <p style="color: #8c8c8c; font-size: 14px;">Mã giao dịch: ${orderId}</p>
-                <p style="margin-top: 25px;">VNPAY sẽ tự động đưa bạn về lại trang của Nhà cung cấp</p>
-                <a href="trangchu.html">Quay về trang chủ</a>
-            `;
-        } else {
-            container.className += ' failed';
-            container.innerHTML = `
-                <div class="icon">✖</div>
-                <h2>Giao dịch thất bại!</h2>
-                <p style="color: #8c8c8c; font-size: 14px;">Mã giao dịch: ${orderId}</p>
-                <p style="margin-top: 25px;">Vui lòng kiểm tra lại thông tin hoặc thử lại sau.</p>
-                <a href="trangchu.html">Thử lại / Quay về trang chủ</a>
-            `;
+        let headerHTML = '';
+        let detailsHTML = '';
+        
+        switch (status) {
+            case 'success':
+                container.className += ' success';
+                headerHTML = `
+                    <div class="status-icon">✓</div>
+                    <h1>Giao Dịch Thành Công</h1>
+                `;
+                detailsHTML = `
+                    <div class="detail-row"><span>Mã đơn hàng:</span> <strong>${orderId}</strong></div>
+                    <div class="detail-row"><span>Số tiền:</span> <strong>${amount}</strong></div>
+                    <div class="detail-row"><span>Trạng thái:</span> <strong>Đã Thanh Toán</strong></div>
+                `;
+                break;
+            case 'failed':
+                container.className += ' failed';
+                headerHTML = `
+                    <div class="status-icon">✖</div>
+                    <h1>Giao Dịch Thất Bại</h1>
+                `;
+                detailsHTML = `
+                    <div class="detail-row"><span>Mã đơn hàng:</span> <strong>${orderId}</strong></div>
+                    <div class="detail-row"><span>Lý do:</span> <strong>Ngân hàng từ chối hoặc lỗi khác</strong></div>
+                    <div class="detail-row"><span>Trạng thái:</span> <strong>Chưa Thanh Toán</strong></div>
+                `;
+                break;
+            case 'hash_error':
+                container.className += ' hash-error';
+                headerHTML = `
+                    <div class="status-icon">!</div>
+                    <h1>Lỗi Dữ Liệu</h1>
+                `;
+                detailsHTML = `
+                    <div class="detail-row"><span>Lỗi:</span> <strong>Chữ ký bảo mật không hợp lệ</strong></div>
+                    <div class="detail-row"><span>Thông báo:</span> <strong>Vui lòng liên hệ nhà cung cấp dịch vụ</strong></div>
+                `;
+                break;
+            default:
+                container.className += ' failed';
+                headerHTML = `
+                    <div class="status-icon">!</div>
+                    <h1>Lỗi Không Xác Định</h1>
+                `;
+                detailsHTML = `<p style="margin-top: 20px;">Không tìm thấy thông tin giao dịch hợp lệ.</p>`;
         }
+
+        container.innerHTML = `
+            <div class="header">${headerHTML}</div>
+            <div class="details">${detailsHTML}</div>
+            <a href="trangchu.html" class="button-link">Quay về Trang Chủ</a>
+        `;
     </script>
 </body>
 </html>
