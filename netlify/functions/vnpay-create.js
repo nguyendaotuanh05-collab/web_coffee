@@ -9,7 +9,18 @@ const vnp_HashSecret = process.env.VNP_HASHSECRET;
 const vnpUrl = process.env.VNP_URL;
 const returnUrl = process.env.VNP_RETURN_URL;
 
-// Hàm xử lý chính của Netlify Function
+// Hàm phụ trợ để sắp xếp object theo thứ tự alphabet (Bắt buộc cho VNPAY)
+function sortObject(obj) {
+	const sorted = {};
+	const keys = Object.keys(obj).sort();
+	for (const key of keys) {
+		sorted[key] = obj[key];
+	}
+	return sorted;
+}
+
+
+// HÀM XỬ LÝ CHÍNH CỦA NETLIFY FUNCTION
 exports.handler = async (event, context) => {
     // 1. Chỉ chấp nhận phương thức POST từ frontend
     if (event.httpMethod !== 'POST') {
@@ -20,6 +31,15 @@ exports.handler = async (event, context) => {
     }
 
     try {
+        // --- 1. KIỂM TRA CẤU HÌNH BIẾN MÔI TRƯỜNG ---
+        if (!tmnCode || !vnp_HashSecret || !vnpUrl || !returnUrl) {
+            console.error("VNPAY CONFIG MISSING: Check Netlify Environment Variables.");
+            return {
+                statusCode: 500,
+                body: JSON.stringify({ message: "Lỗi cấu hình VNPAY: Thiếu biến môi trường (TmnCode, HashSecret, vnpUrl, hoặc ReturnUrl)." }),
+            };
+        }
+
         // 2. Lấy dữ liệu từ body (được gửi từ giohang.html)
         const { amount, orderId, orderInfo } = JSON.parse(event.body);
         
@@ -32,7 +52,9 @@ exports.handler = async (event, context) => {
         }
 
         // 3. Thiết lập các tham số VNPAY
+        // Lấy địa chỉ IP của client (cần cho VNPAY)
         const ipAddr = event.headers['x-forwarded-for'] || event.headers['client-ip'] || '';
+        
         const currCode = 'VND';
         const vnp_Params = {};
         
@@ -41,7 +63,7 @@ exports.handler = async (event, context) => {
         vnp_Params['vnp_TmnCode'] = tmnCode;
         vnp_Params['vnp_Locale'] = 'vn';
         vnp_Params['vnp_CurrCode'] = currCode;
-        vnp_Params['vnp_TxnRef'] = orderId;
+        vnp_Params['vnp_TxnRef'] = orderId; // Mã giao dịch riêng của bạn
         vnp_Params['vnp_OrderInfo'] = orderInfo || `Thanh toan don hang ${orderId}`;
         vnp_Params['vnp_OrderType'] = 'other';
         vnp_Params['vnp_Amount'] = amount * 100; // VNPAY yêu cầu giá trị tính bằng Cent
@@ -58,7 +80,7 @@ exports.handler = async (event, context) => {
         const signData = querystring.stringify(sortedParams, { encode: false });
         
         // 6. Tạo chữ ký bảo mật (Secure Hash)
-        const hmac = crypto.createHmac('sha512', hashSecret);
+        const hmac = crypto.createHmac('sha512', vnp_HashSecret);
         const secureHash = hmac.update(signData).digest('hex');
         
         // 7. Gắn chữ ký vào tham số và tạo URL
@@ -73,20 +95,12 @@ exports.handler = async (event, context) => {
         };
 
     } catch (error) {
-        console.error("VNPAY CREATE ERROR:", error);
+        console.error("VNPAY CREATE ERROR (FATAL):", error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: "Lỗi nội bộ khi tạo URL VNPAY.", error: error.message }),
+            body: JSON.stringify({ message: "Lỗi nội bộ nghiêm trọng khi tạo URL VNPAY.", error: error.message }),
         };
     }
 };
 
-// Hàm phụ trợ để sắp xếp object theo thứ tự alphabet
-function sortObject(obj) {
-	const sorted = {};
-	const keys = Object.keys(obj).sort();
-	for (const key of keys) {
-		sorted[key] = obj[key];
-	}
-	return sorted;
-}
+// Hàm phụ trợ được đặt ở trên để dễ nhìn hơn
