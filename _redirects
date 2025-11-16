@@ -1,4 +1,1 @@
-from = "23dh.netlify.app"
-  to = "23dh.netlify.app/Trangchu.html"
-  status = 301
-  force = true
+/    /Trangchu.html    301
