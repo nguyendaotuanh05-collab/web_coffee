@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kết Quả Giao Dịch VNPAY</title>
     <style>
+        /* CSS mô phỏng giao diện VNPAY */
         body {
             font-family: Arial, sans-serif;
-         background-color: #f0f2f5;
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -41,15 +42,17 @@
             justify-content: center;
             margin-right: 15px;
         }
+        /* Style cho trạng thái Thành công */
         .success .status-icon {
-            background-color: #f6ffed; /* Nền xanh nhạt */
-            border: 1px solid #b7eb8f; /* Viền xanh */
-            color: #52c41a; /* Màu chữ xanh */
+            background-color: #f6ffed;
+            border: 1px solid #b7eb8f;
+            color: #52c41a;
         }
+        /* Style cho trạng thái Thất bại/Lỗi */
         .failed .status-icon, .hash-error .status-icon {
-            background-color: #fff2f0; /* Nền đỏ nhạt */
-            border: 1px solid #ffccc7; /* Viền đỏ */
-            color: #ff4d4f; /* Màu chữ đỏ */
+            background-color: #fff2f0;
+            border: 1px solid #ffccc7;
+            color: #ff4d4f;
         }
         h1 {
             font-size: 22px;
@@ -61,19 +64,19 @@
             text-align: left;
             padding: 5px 0;
             border-bottom: 1px dashed #f0f0f0;
+            display: flex;
+            justify-content: space-between;
         }
         .detail-row span {
-            display: inline-block;
-            width: 45%;
             font-size: 14px;
             color: #666;
+            flex-grow: 1;
         }
         .detail-row strong {
-            display: inline-block;
-            width: 50%;
             text-align: right;
             color: #333;
             font-weight: 600;
+            white-space: nowrap; /* Ngăn không cho số tiền bị xuống dòng */
         }
         .button-link {
             display: block;
@@ -88,6 +91,18 @@
         }
         .button-link:hover {
             background-color: #40a9ff;
+        }
+        /* Dữ liệu tĩnh */
+        .static-data {
+            border-top: 1px solid #d9d9d9;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .static-data h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+            text-align: left;
         }
     </style>
 </head>
@@ -105,10 +120,17 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
+        // --- Dữ liệu tĩnh của bạn ---
+        const RECEIVER_ACCOUNT = '0812890078';
+        const RECEIVER_NAME = 'ECLIPSE COFFEE';
+        // ------------------------------
+
         const status = getParameterByName('status');
         const orderId = getParameterByName('orderId') || 'N/A';
         const rawAmount = getParameterByName('amount');
         const amount = rawAmount ? (parseFloat(rawAmount)).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VNĐ' : 'N/A';
+        const transactionTime = new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh', hour12: false });
+        
         const container = document.getElementById('result-container');
         
         let headerHTML = '';
@@ -122,8 +144,9 @@
                     <h1>Giao Dịch Thành Công</h1>
                 `;
                 detailsHTML = `
+                    <div class="detail-row"><span>Thời gian giao dịch:</span> <strong>${transactionTime}</strong></div>
                     <div class="detail-row"><span>Mã đơn hàng:</span> <strong>${orderId}</strong></div>
-                    <div class="detail-row"><span>Số tiền:</span> <strong>${amount}</strong></div>
+                    <div class="detail-row"><span>Số tiền thanh toán:</span> <strong>${amount}</strong></div>
                     <div class="detail-row"><span>Trạng thái:</span> <strong>Đã Thanh Toán</strong></div>
                 `;
                 break;
@@ -134,34 +157,35 @@
                     <h1>Giao Dịch Thất Bại</h1>
                 `;
                 detailsHTML = `
+                    <div class="detail-row"><span>Thời gian giao dịch:</span> <strong>${transactionTime}</strong></div>
                     <div class="detail-row"><span>Mã đơn hàng:</span> <strong>${orderId}</strong></div>
                     <div class="detail-row"><span>Lý do:</span> <strong>Ngân hàng từ chối hoặc lỗi khác</strong></div>
                     <div class="detail-row"><span>Trạng thái:</span> <strong>Chưa Thanh Toán</strong></div>
                 `;
                 break;
             case 'hash_error':
-                container.className += ' hash-error';
-                headerHTML = `
-                    <div class="status-icon">!</div>
-                    <h1>Lỗi Dữ Liệu</h1>
-                `;
-                detailsHTML = `
-                    <div class="detail-row"><span>Lỗi:</span> <strong>Chữ ký bảo mật không hợp lệ</strong></div>
-                    <div class="detail-row"><span>Thông báo:</span> <strong>Vui lòng liên hệ nhà cung cấp dịch vụ</strong></div>
-                `;
-                break;
             default:
-                container.className += ' failed';
+                container.className += ' hash-error';
                 headerHTML = `
                     <div class="status-icon">!</div>
                     <h1>Lỗi Không Xác Định</h1>
                 `;
-                detailsHTML = `<p style="margin-top: 20px;">Không tìm thấy thông tin giao dịch hợp lệ.</p>`;
+                detailsHTML = `<p style="margin-top: 20px;">Vui lòng thử lại hoặc liên hệ nhà cung cấp dịch vụ để kiểm tra.</p>`;
         }
+        
+        // Thêm thông tin tĩnh về tài khoản nhận
+        const staticDataHTML = `
+            <div class="static-data">
+                <h3>Thông Tin Tài Khoản Nhận</h3>
+                <div class="detail-row"><span>Tên Người Nhận:</span> <strong>${RECEIVER_NAME}</strong></div>
+                <div class="detail-row"><span>Số Tài Khoản:</span> <strong>${RECEIVER_ACCOUNT}</strong></div>
+            </div>
+        `;
 
         container.innerHTML = `
             <div class="header">${headerHTML}</div>
             <div class="details">${detailsHTML}</div>
+            ${staticDataHTML}
             <a href="trangchu.html" class="button-link">Quay về Trang Chủ</a>
         `;
     </script>
