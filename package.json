@@ -20,7 +20,7 @@
   "homepage": "https://github.com/nguyendaotuanh05-collab/web_coffee#readme",
   "dependencies": {
     "axios": "^1.13.2",
-    "crypto-js": "^4.2.0",
-    "mongodb": "^4.1.0"  // <--- DÒNG BỔ SUNG CẦN THIẾT
+ "crypto-js": "^4.2.0",
+    "mongodb": "^4.1.0"  
   }
 }
