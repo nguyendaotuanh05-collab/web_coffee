@@ -1,111 +1,61 @@
-// Cần thêm thư viện 'moment' vào package.json nếu chưa có: "moment": "^2.29.1"
-const moment = require('moment'); 
-const crypto = require('crypto');
-const querystring = require('querystring');
+const { VNPay } = require('vnpay/vnpay'); // Hoặc require('vnpay')
+const moment = require('moment'); // Giữ lại moment nếu cần tạo ngày tháng thủ công
 
-// Đảm bảo bạn đã khai báo các biến này trong Netlify Environment Variables
+// ------------------------------------------------------------------
+// Lấy cấu hình từ Netlify Environment Variables
+// ------------------------------------------------------------------
 const tmnCode = process.env.VNP_TMNCODE;
-const vnp_HashSecret = process.env.VNP_HASHSECRET;
-const vnpUrl = process.env.VNP_URL;
+const secureSecret = process.env.VNP_HASHSECRET;
+const vnpayHost = process.env.VNP_URL.replace('/paymentv2/vpcpay.html', ''); // Lấy Host URL gốc
 const returnUrl = process.env.VNP_RETURN_URL;
 
-// Hàm phụ trợ để sắp xếp object theo thứ tự alphabet (Bắt buộc cho VNPAY)
-function sortObject(obj) {
-	const sorted = {};
-	const keys = Object.keys(obj).sort();
-	for (const key of keys) {
-		sorted[key] = obj[key];
-	}
-	return sorted;
+// Khởi tạo VNPay (Cần xử lý try/catch nếu các biến trên bị thiếu)
+try {
+    const vnpay = new VNPay({
+        tmnCode: tmnCode,
+        secureSecret: secureSecret,
+        vnpayHost: vnpayHost, // Chỉ cần host name (ví dụ: https://sandbox.vnpayment.vn)
+        testMode: true, 
+    });
+} catch (error) {
+    console.error("VNPAY INITIALIZATION ERROR:", error);
 }
-
 
 // HÀM XỬ LÝ CHÍNH CỦA NETLIFY FUNCTION
 exports.handler = async (event, context) => {
-    // 1. Chỉ chấp nhận phương thức POST từ frontend
     if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: JSON.stringify({ message: "Method Not Allowed" }),
-        };
+        return { statusCode: 405, body: "Method Not Allowed" };
+    }
+
+    // Kiểm tra khởi tạo
+    if (!vnpay) {
+        return { statusCode: 500, body: JSON.stringify({ message: "VNPAY initialization failed. Check ENV variables." }) };
     }
 
     try {
-        // --- 1. KIỂM TRA CẤU HÌNH BIẾN MÔI TRƯỜNG ---
-        if (!tmnCode || !vnp_HashSecret || !vnpUrl || !returnUrl) {
-            console.error("VNPAY CONFIG MISSING: Check Netlify Environment Variables.");
-            return {
-                statusCode: 500,
-                body: JSON.stringify({ message: "Lỗi cấu hình VNPAY: Thiếu biến môi trường (TmnCode, HashSecret, vnpUrl, hoặc ReturnUrl)." }),
-            };
-        }
+        const { amount, orderId, orderInfo } = JSON.parse(event.body);
+        const ipAddr = event.headers['x-forwarded-for'] || '';
+        
+        // Sử dụng hàm buildPaymentUrl của thư viện
+        const paymentUrl = vnpay.buildPaymentUrl({
+            vnp_Amount: amount * 100, // Thư viện vẫn yêu cầu Cent
+            vnp_IpAddr: ipAddr,
+            vnp_ReturnUrl: returnUrl,
+            vnp_TxnRef: orderId,
+            vnp_OrderInfo: orderInfo || `Thanh toán đơn hàng ${orderId}`,
+        });
 
-        // 2. Lấy dữ liệu từ body (được gửi từ giohang.html)
-       // const { amount, orderId, orderInfo } = JSON.parse(event.body);
-const amount = 50000; // Dùng số nguyên sạch sẽ
-const orderId = 'TEST' + Date.now();
-const orderInfo = 'Thanh toan don hang TEST';
-
-
-		
-        // Kiểm tra dữ liệu bắt buộc
-        if (!amount || !orderId) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ message: "Thiếu thông tin amount hoặc orderId." }),
-            };
-        }
-
-        // 3. Thiết lập các tham số VNPAY
-        // Lấy địa chỉ IP của client (cần cho VNPAY)
-        const ipAddr = event.headers['x-forwarded-for'] || event.headers['client-ip'] || '';
-        
-        const currCode = 'VND';
-        const vnp_Params = {};
-        
-        vnp_Params['vnp_Version'] = '2.1.0';
-        vnp_Params['vnp_Command'] = 'pay';
-        vnp_Params['vnp_TmnCode'] = tmnCode;
-        vnp_Params['vnp_Locale'] = 'vn';
-        vnp_Params['vnp_CurrCode'] = currCode;
-        vnp_Params['vnp_TxnRef'] = orderId; // Mã giao dịch riêng của bạn
-        vnp_Params['vnp_OrderInfo'] = orderInfo || `Thanh toan don hang ${orderId}`;
-        vnp_Params['vnp_OrderType'] = 'other';
-        vnp_Params['vnp_Amount'] = amount * 100; // VNPAY yêu cầu giá trị tính bằng Cent
-        vnp_Params['vnp_ReturnUrl'] = returnUrl;
-        vnp_Params['vnp_IpAddr'] = ipAddr;
-        
-        const createDate = moment().format('YYYYMMDDHHmmss');
-        vnp_Params['vnp_CreateDate'] = createDate;
-
-        // 4. Sắp xếp các tham số theo thứ tự alphabet
-        const sortedParams = sortObject(vnp_Params);
-        
-        // 5. Tạo chuỗi dữ liệu để băm (Hash)
-        const signData = querystring.stringify(sortedParams, { encode: false });
-        
-        // 6. Tạo chữ ký bảo mật (Secure Hash)
-        const hmac = crypto.createHmac('sha512', vnp_HashSecret);
-        const secureHash = hmac.update(signData).digest('hex');
-        
-        // 7. Gắn chữ ký vào tham số và tạo URL
-        sortedParams['vnp_SecureHash'] = secureHash;
-        
-        const finalVnpUrl = vnpUrl + '?' + querystring.stringify(sortedParams, { encode: true });
-
-        // 8. Trả về URL cho Frontend (giohang.html)
+        // Trả về URL cho Frontend
         return {
             statusCode: 200,
-            body: JSON.stringify({ vnpUrl: finalVnpUrl }),
+            body: JSON.stringify({ vnpUrl: paymentUrl }),
         };
 
     } catch (error) {
-        console.error("VNPAY CREATE ERROR (FATAL):", error);
+        console.error("VNPAY CREATE ERROR (LIB):", error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: "Lỗi nội bộ nghiêm trọng khi tạo URL VNPAY.", error: error.message }),
+            body: JSON.stringify({ message: "Lỗi tạo URL VNPAY bằng thư viện.", error: error.message }),
         };
     }
 };
-
-// Hàm phụ trợ được đặt ở trên để dễ nhìn hơn
