@@ -41,7 +41,7 @@ exports.handler = async (event, context) => {
         
         // Sử dụng hàm buildPaymentUrl của thư viện
         const paymentUrl = vnpay.buildPaymentUrl({
-            vnp_Amount: amount * 100, // VNPAY yêu cầu giá trị tính bằng Cent
+            vnp_Amount: amount * 1, // VNPAY yêu cầu giá trị tính bằng Cent
             vnp_IpAddr: ipAddr,
             vnp_ReturnUrl: returnUrl,
             vnp_TxnRef: orderId,
