@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kết Quả Giao Dịch VNPAY</title>
+    <title>Kết Quả Giao Dịch ECLIPSE COFFEE</title>
     <style>
         /* CSS mô phỏng giao diện VNPAY */
         body {
@@ -54,8 +54,8 @@
             border: 1px solid #ffccc7;
             color: #ff4d4f;
         }
-        .vnpay-logo {
-            width: 100px;
+        .custom-logo { /* Đổi tên class để phù hợp hơn */
+            width: 120px; /* Tùy chỉnh kích thước logo của bạn */
             height: auto;
             margin-bottom: 15px;
         }
@@ -120,8 +120,9 @@
         </div>
 
     <script>
-      const CUSTOM_LOGO_URL = 'img/trangchu/logo.png';
-        // ------------------------------------------
+        // --- ĐƯỜNG DẪN TRỰC TIẾP ĐẾN LOGO ECLIPSE COFFEE TẠI GỐC DỰ ÁN ---
+        const CUSTOM_LOGO_URL = 'img/trangchu/logo.png'; 
+        // --------------------------------------------------------------------
 
         function getParameterByName(name, url = window.location.href) {
             name = name.replace(/[\[\]]/g, '\\$&');
@@ -155,7 +156,7 @@
             case 'success':
                 container.className += ' success';
                 headerHTML = `
-                    <img src="${VNPAY_LOGO_URL}" alt="VNPAY Logo" class="vnpay-logo">
+                    <img src="${CUSTOM_LOGO_URL}" alt="Eclipse Coffee Logo" class="custom-logo">
                     <div class="status-icon">✓</div>
                     <h1>Thanh Toán Thành Công</h1>
                 `;
@@ -169,7 +170,7 @@
             case 'failed':
                 container.className += ' failed';
                 headerHTML = `
-                    <img src="${VNPAY_LOGO_URL}" alt="VNPAY Logo" class="vnpay-logo">
+                    <img src="${CUSTOM_LOGO_URL}" alt="Eclipse Coffee Logo" class="custom-logo">
                     <div class="status-icon">✖</div>
                     <h1>Giao Dịch Thất Bại</h1>
                 `;
@@ -184,7 +185,7 @@
             default:
                 container.className += ' hash-error';
                 headerHTML = `
-                    <img src="${VNPAY_LOGO_URL}" alt="VNPAY Logo" class="vnpay-logo">
+                    <img src="${CUSTOM_LOGO_URL}" alt="Eclipse Coffee Logo" class="custom-logo">
                     <div class="status-icon">!</div>
                     <h1>Lỗi Không Xác Định</h1>
                 `;
